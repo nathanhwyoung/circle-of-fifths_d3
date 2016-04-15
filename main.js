@@ -17,18 +17,18 @@ var color = d3.scale.ordinal()
 // console.log(color);
 
 var fifths = [
-    {"major" : "C", "Am"},
-    {"major" : "G", "Em"},
-    {"major" : "D", "Bm"},
-    {"major" : "A", "F#m, Gbm"},
-    {"major" : "E", "C#m, Dbm"},
-    {"major" : "B", "G#m"},
-    {"major" : "F#, Gb", "D#m, Ebm"},
-    {"major" : "C#, Db", "A#m, Bbm"},
-    {"major" : "Ab", "Fm"},
-    {"major" : "Eb", "Cm"},
-    {"major" : "Bb", "Gm"},
-    {"major" : "F", "Dm"}
+    {"major" : "C", "minor" : "Am"},
+    {"major" : "G", "minor" : "Em"},
+    {"major" : "D", "minor" : "Bm"},
+    {"major" : "A", "minor" : "F#m, Gbm"},
+    {"major" : "E", "minor" : "C#m, Dbm"},
+    {"major" : "B", "minor" : "G#m"},
+    {"major" : "F#, Gb", "minor" : "D#m, Ebm"},
+    {"major" : "C#, Db", "minor" : "A#m, Bbm"},
+    {"major" : "Ab", "minor" : "Fm"},
+    {"major" : "Eb", "minor" : "Cm"},
+    {"major" : "Bb", "minor" : "Gm"},
+    {"major" : "F", "minor" : "Dm"}
 ];
 
 // constructs a new arc generator & sets the inner & outer radius
@@ -37,6 +37,7 @@ var arc = d3.svg.arc()
     .innerRadius(innerRadius);
 
 // makes it easier to create a pie chart
+// CONTINUE COMMENTING FROM HERE!!!!!
 var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) {
@@ -59,8 +60,8 @@ var g = svg.selectAll(".arc")
 
 g.append("path")
     .attr("d", arc)
-    .style("fill", function(d) {
-        return color(d.data.age);
+    .style("fill", function(d, i) {
+        return color(i);
     });
 
 g.append("text")
