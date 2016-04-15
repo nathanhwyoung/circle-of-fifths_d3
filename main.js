@@ -2,11 +2,35 @@ var width = 960,
     height = 500,
     radius = Math.min(width, height) / 2;
 
-var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+console.log(radius);
 
+// ordinal scales have a discrete domain
+// D3 scales are functions whose parameters you define. once they are created,
+// you call the scale function, pass it a data value, and it nicely returns a
+// scaled output value.
+var color = d3.scale.ordinal()
+    .range(["#ff0000", "#ff8000", "#ffff00", "#80ff00", "#00ff00", "#00ff80", "#00ffff", "#0080ff", "#0000ff", "#8000ff", "#ff00ff", "#ff0080"]);
+
+console.log(color);
+
+var fifths = [
+	["C","Am"],
+	["G","Em"],
+	["D","Bm"],
+	["A","F#m, Gbm"],
+	["E","C#m, Dbm"],
+	["B","G#m"],
+	["F#, Gb", "D#m, Ebm"],
+	["C#, Db", "A#m", "Bbm"],
+	["Ab", "Fm"],
+	["Eb","Cm"],
+	["Bb","Gm"],
+	["F","Dm"]
+];
+
+// constructs a new arc generator
 var arc = d3.svg.arc()
-    .outerRadius(radius - 10)
+    .outerRadius(radius)
     .innerRadius(radius - 70);
 
 var pie = d3.layout.pie()
