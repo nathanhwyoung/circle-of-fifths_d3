@@ -1,8 +1,9 @@
+// declare variables
 var width = 960,
     height = 600,
     radius = Math.min(width, height) / 2,
-	outerRadius = 300,
-	innerRadius = 150;
+    outerRadius = 300,
+    innerRadius = 150;
 
 // console.log(radius);
 
@@ -16,54 +17,63 @@ var color = d3.scale.ordinal()
 // console.log(color);
 
 var fifths = [
-	["C","Am"],
-	["G","Em"],
-	["D","Bm"],
-	["A","F#m, Gbm"],
-	["E","C#m, Dbm"],
-	["B","G#m"],
-	["F#, Gb", "D#m, Ebm"],
-	["C#, Db", "A#m", "Bbm"],
-	["Ab", "Fm"],
-	["Eb","Cm"],
-	["Bb","Gm"],
-	["F","Dm"]
+    {"major" : "C", "Am"},
+    {"major" : "G", "Em"},
+    {"major" : "D", "Bm"},
+    {"major" : "A", "F#m, Gbm"},
+    {"major" : "E", "C#m, Dbm"},
+    {"major" : "B", "G#m"},
+    {"major" : "F#, Gb", "D#m, Ebm"},
+    {"major" : "C#, Db", "A#m, Bbm"},
+    {"major" : "Ab", "Fm"},
+    {"major" : "Eb", "Cm"},
+    {"major" : "Bb", "Gm"},
+    {"major" : "F", "Dm"}
 ];
 
-// constructs a new arc generator
+// constructs a new arc generator & sets the inner & outer radius
 var arc = d3.svg.arc()
     .outerRadius(outerRadius)
     .innerRadius(innerRadius);
 
+// makes it easier to create a pie chart
 var pie = d3.layout.pie()
     .sort(null)
-    .value(function(d) { return d.population; });
+    .value(function(d) {
+        console.log(100 / fifths.length);
+        return 100 / fifths.length;
+    });
 
+//
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
-  .append("g")
+    .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-d3.csv("data.csv", type, function(error, data) {
-  if (error) throw error;
-
-  var g = svg.selectAll(".arc")
-      .data(pie(data))
+// pass in fifths array
+var g = svg.selectAll(".arc")
+    .data(pie(fifths))
     .enter().append("g")
-      .attr("class", "arc");
+    .attr("class", "arc");
 
-  g.append("path")
-      .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.age); });
+g.append("path")
+    .attr("d", arc)
+    .style("fill", function(d) {
+        return color(d.data.age);
+    });
 
-  g.append("text")
-      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .text(function(d) { return d.data.age; });
-});
+g.append("text")
+    .attr("transform", function(d) {
+        return "translate(" + arc.centroid(d) + ")";
+    })
+    .attr("dy", ".35em")
+    .text(function(d) {
+        return d[1];
+    });
+
 
 function type(d) {
-  d.population = +d.population;
-  return d;
+    d.population = +d.population;
+    return d;
 }
